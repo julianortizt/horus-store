@@ -9,9 +9,9 @@
 const h=new Date().getHours();let m='night'
 if(h>=6&&h<=12)m='morning';else if(h>=12&&h<=18)m='afternoon'
 document.body.classList.add('mode-'+m);window.__horusMode=m
-// Restore custom colors from localStorage
+// Restore custom colors from localStorage (applied on DOMContentLoaded to ensure trigger exists)
 const saved=JSON.parse(localStorage.getItem('horus_theme'))
-if(saved){applyCustomTheme(saved.gold,saved.bg,saved.mode||m)
+if(saved){window.__savedTheme={gold:saved.gold,bg:saved.bg,mode:saved.mode||m}
 window.__horusMode=saved.mode||m}})()
 function getTimeModeLabel(){const m=window.__horusMode||'night'
 return{morning:{icon:'🌅',text:'Buenos días'},afternoon:{icon:'☀️',text:'Buenas tardes'},night:{icon:'🌙',text:'Buenas noches'}}[m]}
@@ -42,6 +42,11 @@ function applyCustomTheme(gold,bg,mode){
   // Update trigger ball
   const t=document.getElementById('colorPickerTrigger')
   if(t)t.style.background=`linear-gradient(135deg,${bg} 50%,${gold} 50%)`
+  // Also update gold/bg inputs if they exist and no custom theme was loaded yet
+  const gi=document.getElementById('goldColorPicker')
+  const bi=document.getElementById('bgColorPicker')
+  if(gi&&!gi.value)gi.value=gold
+  if(bi&&!bi.value)bi.value=bg
   window.__horusMode=m
 }
 function adjustColor(hex,amt){
@@ -679,6 +684,9 @@ function updateModeLabel(mode){
 // 16. INIT
 // ==============================================
 document.addEventListener('DOMContentLoaded',()=>{
+  // Apply saved custom theme early so trigger renders with correct color
+  const saved=window.__savedTheme
+  if(saved){applyCustomTheme(saved.gold,saved.bg,saved.mode||window.__horusMode||'night')}
   initNavbar();initScrollNav();initReveal();initCounters()
   updateBadge();renderCart();renderCheckout();renderOrders()
   initShop();initSlider();initParticles();initAdmin();initCustomize()
