@@ -3,13 +3,70 @@
    ============================================ */
 
 // ==============================================
-// 1. TIME MODE
+// 1. TIME MODE + THEME CUSTOMIZER
 // ==============================================
-(function(){const h=new Date().getHours();let m='night'
+(function(){
+const h=new Date().getHours();let m='night'
 if(h>=6&&h<=12)m='morning';else if(h>=12&&h<=18)m='afternoon'
-document.body.classList.add('mode-'+m);window.__horusMode=m})()
+document.body.classList.add('mode-'+m);window.__horusMode=m
+// Restore custom colors from localStorage
+const saved=JSON.parse(localStorage.getItem('horus_theme'))
+if(saved){applyCustomTheme(saved.gold,saved.bg,saved.mode||m)
+window.__horusMode=saved.mode||m}})()
 function getTimeModeLabel(){const m=window.__horusMode||'night'
 return{morning:{icon:'🌅',text:'Buenos días'},afternoon:{icon:'☀️',text:'Buenas tardes'},night:{icon:'🌙',text:'Buenas noches'}}[m]}
+function applyCustomTheme(gold,bg,mode){
+  if(!gold||!bg)return
+  document.body.classList.remove('mode-morning','mode-afternoon','mode-night')
+  document.body.classList.add('mode-'+mode)
+  if(!document.getElementById('customThemeStyle')){
+    const s=document.createElement('style');s.id='customThemeStyle'
+    document.head.appendChild(s)
+  }
+  // Generate theme for each time mode, adapting the accent accordingly
+  const modes=mode==='manual'?{current:mode}:[mode]
+  const m=mode
+  let css=`:root{--gold:${gold};--gold-light:${adjustColor(gold,30)};--gold-glow:${hexToRgba(gold,.25)};--bg:${bg};--bg-card:${adjustColor(bg,8)};--bg-elevated:${adjustColor(bg,15)};--border:${hexToRgba(gold,.12)};--text:${getContrastColor(bg)};--text-muted:${getMutedColor(bg)};--hero-start:${bg};--hero-mid:${adjustColor(bg,20)};--hero-end:${adjustColor(bg,40)}}\n`
+  // Generate morning/afternoon variants if cycling modes
+  const variants={
+    morning:{gold:adjustColor(gold,30),bg:adjustColor(bg,80)},
+    afternoon:{gold:adjustColor(gold,-20),bg:adjustColor(bg,20)},
+    night:{gold,bg}
+  }
+  Object.entries(variants).forEach(([vm,v])=>{
+    if(vm===m)return // already set as :root
+    css+=`body.mode-${vm}{--gold:${v.gold};--gold-light:${adjustColor(v.gold,30)};--gold-glow:${hexToRgba(v.gold,.25)};--bg:${v.bg};--bg-card:${adjustColor(v.bg,8)};--bg-elevated:${adjustColor(v.bg,15)};--border:${hexToRgba(v.gold,.12)};--text:${getContrastColor(v.bg)};--text-muted:${getMutedColor(v.bg)};--hero-start:${v.bg};--hero-mid:${adjustColor(v.bg,20)};--hero-end:${adjustColor(v.bg,40)}}\n`
+  })
+  const s=document.getElementById('customThemeStyle')
+  s.textContent=css
+  // Update trigger ball
+  const t=document.getElementById('colorPickerTrigger')
+  if(t)t.style.background=`linear-gradient(135deg,${bg} 50%,${gold} 50%)`
+  window.__horusMode=m
+}
+function adjustColor(hex,amt){
+  if(hex.startsWith('#'))hex=hex.slice(1)
+  if(hex.length===3)hex=hex.split('').map(c=>c+c).join('')
+  let r=Math.min(255,Math.max(0,parseInt(hex.slice(0,2),16)+amt))
+  let g=Math.min(255,Math.max(0,parseInt(hex.slice(2,4),16)+amt))
+  let b=Math.min(255,Math.max(0,parseInt(hex.slice(4,6),16)+amt))
+  return `#${r.toString(16).padStart(2,'0')}${g.toString(16).padStart(2,'0')}${b.toString(16).padStart(2,'0')}`
+}
+function hexToRgba(hex,opacity){
+  if(hex.startsWith('#'))hex=hex.slice(1)
+  if(hex.length===3)hex=hex.split('').map(c=>c+c).join('')
+  const r=parseInt(hex.slice(0,2),16),g=parseInt(hex.slice(2,4),16),b=parseInt(hex.slice(4,6),16)
+  return `rgba(${r},${g},${b},${opacity})`
+}
+function getContrastColor(bg){
+  if(bg.startsWith('#'))bg=bg.slice(1)
+  const r=parseInt(bg.slice(0,2),16),g=parseInt(bg.slice(2,4),16),b=parseInt(bg.slice(4,6),16)
+  return (r*299+g*587+b*114)/1000<128?'#e8e8e8':'#2c2416'
+}
+function getMutedColor(bg){
+  const c=getContrastColor(bg)
+  return c==='#e8e8e8'?'#777':'#7a6e5a'
+}
 
 // ==============================================
 // 2. CURRENCY — COP (Pesos Colombianos)
@@ -189,14 +246,29 @@ function slidePrev(){sliderIndex--;renderSlider()}
 // ==============================================
 // 8. PARTICLES (Canvas Hero)
 // ==============================================
-function initParticles(){
+let _particlesAnimId=null
+function initParticles(restart){
   const canvas=document.getElementById('particles-canvas')
   if(!canvas)return
+  if(restart&&_particlesAnimId){cancelAnimationFrame(_particlesAnimId);_particlesAnimId=null}
+  if(_particlesAnimId)return // Already running
   const ctx=canvas.getContext('2d')
   let w=canvas.width=canvas.offsetWidth
   let h=canvas.height=canvas.offsetHeight
   const particles=[]
   const count=80
+  // Get actual gold color from CSS
+  const gold=window.__goldColor||'rgba(212,168,83,'
+  function getGoldColor(){
+    const g=document.getElementById('customThemeStyle')
+    if(!g)return '212,168,83'
+    const txt=g.textContent
+    const m=txt.match(/--gold:([^;]+)/)
+    if(!m)return '212,168,83'
+    const c=m[1].trim()
+    if(c.startsWith('#'))return parseInt(c.slice(1,3),16)+','+parseInt(c.slice(3,5),16)+','+parseInt(c.slice(5,7),16)
+    return '212,168,83'
+  }
   for(let i=0;i<count;i++){
     particles.push({
       x:Math.random()*w,y:Math.random()*h,
@@ -208,14 +280,14 @@ function initParticles(){
   window.addEventListener('resize',resize)
   function animate(){
     ctx.clearRect(0,0,w,h)
+    const gc=getGoldColor()
     particles.forEach(p=>{
       p.x+=p.vx;p.y+=p.vy
       if(p.x<0||p.x>w)p.vx*=-1
       if(p.y<0||p.y>h)p.vy*=-1
       ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2)
-      ctx.fillStyle=`rgba(212,168,83,${p.o})`;ctx.fill()
+      ctx.fillStyle=`rgba(${gc},${p.o})`;ctx.fill()
     })
-    // Draw connections
     for(let i=0;i<particles.length;i++){
       for(let j=i+1;j<particles.length;j++){
         const dx=particles[i].x-particles[j].x,dy=particles[i].y-particles[j].y
@@ -223,12 +295,12 @@ function initParticles(){
         if(dist<150){
           ctx.beginPath();ctx.moveTo(particles[i].x,particles[i].y)
           ctx.lineTo(particles[j].x,particles[j].y)
-          ctx.strokeStyle=`rgba(212,168,83,${.06*(1-dist/150)})`
+          ctx.strokeStyle=`rgba(${gc},${.06*(1-dist/150)})`
           ctx.lineWidth=.5;ctx.stroke()
         }
       }
     }
-    requestAnimationFrame(animate)
+    _particlesAnimId=requestAnimationFrame(animate)
   }
   animate()
 }
@@ -477,12 +549,140 @@ function initCounters(){document.querySelectorAll('.count-up').forEach(el=>{cons
       observer.unobserve(el)}})}).observe(el)})}
 
 // ==============================================
-// 15. INIT
+// 15. THEME CUSTOMIZER (Color Picker + Toggle)
+// ==============================================
+function initThemeCustomizer(){
+  const trigger=document.getElementById('colorPickerTrigger')
+  const dropdown=document.getElementById('colorPickerDropdown')
+  const goldInput=document.getElementById('goldColorPicker')
+  const bgInput=document.getElementById('bgColorPicker')
+  const toggleBtn=document.getElementById('themeToggleBtn')
+  const resetBtn=document.getElementById('resetThemeBtn')
+  const modeLabel=document.getElementById('themeModeLabel')
+
+  if(!trigger||!dropdown)return
+
+  // Toggle dropdown
+  trigger.addEventListener('click',e=>{e.stopPropagation();dropdown.classList.toggle('open')})
+  document.addEventListener('click',e=>{if(!dropdown.contains(e.target)&&e.target!==trigger)dropdown.classList.remove('open')})
+
+  // Init trigger color if custom theme saved
+  const saved=JSON.parse(localStorage.getItem('horus_theme'))
+  if(saved&&trigger){
+    trigger.style.background=`linear-gradient(135deg,${saved.bg} 50%,${saved.gold} 50%)`
+  }
+
+  // Load current values from localStorage or defaults
+  if(saved){
+    if(goldInput)goldInput.value=saved.gold
+    if(bgInput)bgInput.value=saved.bg
+  }
+
+  // Color picker changes
+  if(goldInput)goldInput.addEventListener('input',function(){
+    const bg=bgInput?.value||'#050508'
+    saveAndApply(this.value,bg)
+  })
+  if(bgInput)bgInput.addEventListener('input',function(){
+    const gold=goldInput?.value||'#d4a853'
+    saveAndApply(gold,this.value)
+  })
+
+  // Presets
+  document.querySelectorAll('.color-preset').forEach(el=>{
+    el.addEventListener('click',function(){
+      const gold=this.dataset.gold,bg=this.dataset.bg
+      document.querySelectorAll('.color-preset').forEach(x=>x.classList.remove('active'))
+      this.classList.add('active')
+      saveAndApply(gold,bg)
+      if(goldInput)goldInput.value=gold
+      if(bgInput)bgInput.value=bg
+    })
+  })
+
+  // Mode toggle (day/night manual)
+  if(toggleBtn){
+    toggleBtn.addEventListener('click',function(){
+      const current=window.__horusMode||'night'
+      const saved=JSON.parse(localStorage.getItem('horus_theme')||'{}')
+      const baseGold=saved.gold||'#d4a853'
+      const baseBg=saved.bg||'#050508'
+      const modes=['morning','afternoon','night']
+      const next=modes[(modes.indexOf(current)+1)%modes.length]
+      // Derive colors for this mode
+      const variants={
+        morning:{gold:adjustColor(baseGold,30),bg:adjustColor(baseBg,80)},
+        afternoon:{gold:adjustColor(baseGold,-20),bg:adjustColor(baseBg,20)},
+        night:{gold:baseGold,bg:baseBg}
+      }
+      const p=variants[next]
+      saveAndApply(p.gold,p.bg,next)
+      if(goldInput)goldInput.value=p.gold
+      if(bgInput)bgInput.value=p.bg
+      document.querySelectorAll('.color-preset').forEach(x=>x.classList.remove('active'))
+      updateModeLabel(next)
+    })
+  }
+
+  // Reset
+  if(resetBtn){
+    resetBtn.addEventListener('click',function(){
+      localStorage.removeItem('horus_theme')
+      document.getElementById('customThemeStyle')?.remove()
+      const h=new Date().getHours();let m='night'
+      if(h>=6&&h<=12)m='morning';else if(h>=12&&h<=18)m='afternoon'
+      document.body.className=''
+      document.body.classList.add('mode-'+m)
+      window.__horusMode=m
+      if(trigger)trigger.style.background=''
+      if(goldInput)goldInput.value='#d4a853'
+      if(bgInput)bgInput.value='#050508'
+      document.querySelectorAll('.color-preset').forEach(x=>x.classList.remove('active'))
+      document.querySelector('.color-preset:first-child')?.classList.add('active')
+      updateModeLabel(m)
+      // Restart particles with default color
+      initParticles(true)
+      dropdown.classList.remove('open')
+    })
+  }
+
+  updateModeLabel(window.__horusMode||'night')
+
+  function saveAndApply(gold,bg,mode){
+    mode=mode||window.__horusMode||'night'
+    localStorage.setItem('horus_theme',JSON.stringify({gold,bg,mode}))
+    applyCustomTheme(gold,bg,mode)
+    updateModeLabel(mode)
+    document.querySelectorAll('.color-preset').forEach(x=>x.classList.remove('active'))
+    const matched=document.querySelector(`.color-preset[data-gold="${gold}"][data-bg="${bg}"]`)
+    if(matched)matched.classList.add('active')
+    // Re-render particles with new gold color
+    initParticles(true)
+  }
+}
+
+function updateModeLabel(mode){
+  const el=document.getElementById('themeModeLabel')
+  if(!el)return
+  const labels={morning:'🌅 Mañana',afternoon:'☀️ Tarde',night:'🌙 Noche'}
+  const toggleBtn=document.getElementById('themeToggleBtn')
+  if(toggleBtn){
+    const icons={morning:'🌅',afternoon:'☀️',night:'🌙'}
+    toggleBtn.textContent=icons[mode]||'🌙'
+  }
+  el.textContent=labels[mode]||'🌙 Noche'
+  const ti=document.getElementById('timeIndicator')
+  if(ti)ti.textContent=getTimeModeLabel().icon+' '+getTimeModeLabel().text
+}
+
+// ==============================================
+// 16. INIT
 // ==============================================
 document.addEventListener('DOMContentLoaded',()=>{
   initNavbar();initScrollNav();initReveal();initCounters()
   updateBadge();renderCart();renderCheckout();renderOrders()
   initShop();initSlider();initParticles();initAdmin();initCustomize()
+  initThemeCustomizer()
   const ti=document.getElementById('timeIndicator')
   if(ti)ti.textContent=getTimeModeLabel().icon+' '+getTimeModeLabel().text
 })

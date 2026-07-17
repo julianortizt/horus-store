@@ -10,7 +10,32 @@
 <ul class="nav-links" id="navLinks">
 <li><a href="/">Inicio</a></li><li><a href="/pages/shop.html">Tienda</a></li><li><a href="/pages/gallery.html">Galería</a></li><li><a href="/pages/customize.html">Personalizar</a></li><li><a href="/pages/orders.html">Pedidos</a></li><li><a href="/pages/admin.html">⚙️ Admin</a></li><li><a href="/pages/contact.html">Contacto</a></li>
 <li><span class="time-indicator" id="timeIndicator">🌅</span></li></ul>
-<div class="nav-actions"><a href="/pages/cart.html" class="cart-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg><span class="cart-badge" id="cartBadge">0</span></a><button class="hamburger" id="hamburger" aria-label="Menú">☰</button></div></div></nav>
+<div class="nav-actions">
+<div class="color-picker-wrapper">
+<div class="color-picker-trigger" id="colorPickerTrigger" title="Personalizar tema"></div>
+<div class="color-picker-dropdown" id="colorPickerDropdown">
+<label>🌙/☀️ Tema manual</label>
+<div style="display:flex;gap:.5rem">
+<button class="theme-toggle" id="themeToggleBtn" style="font-size:1.3rem;width:44px;height:44px" title="Alternar modo">☀️</button>
+</div>
+<label>Tono dorado</label>
+<input type="color" id="goldColorPicker" value="#d4a853">
+<label>Fondo</label>
+<input type="color" id="bgColorPicker" value="#050508">
+<label>Presets rápidos</label>
+<div class="color-presets">
+<div class="color-preset active" data-gold="#d4a853" data-bg="#050508" style="background:linear-gradient(135deg,#050508 50%,#d4a853 50%)" title="Clásico"></div>
+<div class="color-preset" data-gold="#e8b84b" data-bg="#f7f3e9" style="background:linear-gradient(135deg,#f7f3e9 50%,#e8b84b 50%)" title="Mañana"></div>
+<div class="color-preset" data-gold="#d4903a" data-bg="#1a1210" style="background:linear-gradient(135deg,#1a1210 50%,#d4903a 50%)" title="Tarde"></div>
+<div class="color-preset" data-gold="#00d4ff" data-bg="#0a0015" style="background:linear-gradient(135deg,#0a0015 50%,#00d4ff 50%)" title="Neon"></div>
+<div class="color-preset" data-gold="#ff6b6b" data-bg="#1a0000" style="background:linear-gradient(135deg,#1a0000 50%,#ff6b6b 50%)" title="Fuego"></div>
+</div>
+<div class="theme-mode-label" id="themeModeLabel">🌙 Noche</div>
+<button class="reset-theme-btn" id="resetThemeBtn">↺ Restaurar</button>
+</div></div>
+<a href="/pages/cart.html" class="cart-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg><span class="cart-badge" id="cartBadge">0</span></a>
+<button class="hamburger" id="hamburger" aria-label="Menú">☰</button>
+</div></div></nav>
 <section class="page-header"><div class="container"><span class="section-label">Checkout</span><h1>Finalizar <span class="accent">pedido</span></h1><p>Completa tus datos y confirma. 🇨🇴 Colombia.</p></div></section>
 <section class="section" style="padding-top:0"><div class="container" id="checkoutContainer"></div></section>
 <footer class="footer"><div class="container footer-inner">
