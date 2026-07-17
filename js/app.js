@@ -130,18 +130,18 @@ function saveProducts(prods){
 
 function defaultProducts(){
   return [
-    {id:'p1',name:'Yoshi Bleach',type:'Bleach Art',price:125000,priceEUR:29.90,image:'☠️',category:'bleach',popular:true,desc:'Camiseta decolorada con cloro. Diseño de Yoshi. Efecto único.'},
-    {id:'p2',name:'Super Mario Bleach',type:'Bleach Art',price:125000,priceEUR:29.90,image:'🍄',category:'bleach',popular:true,desc:'Mario Bros en bleach art. Diseño artesanal sobre tela negra.'},
-    {id:'p3',name:'Tie Dye Psicodélico',type:'Tie Dye',price:146000,priceEUR:34.90,image:'🌈',category:'tiedye',desc:'Patrón psicodélico teñido a mano. Cada pieza es única.'},
-    {id:'p4',name:'Dragon Ball Pintado',type:'Pintura Textil',price:167000,priceEUR:39.90,image:'🐉',category:'pintura',popular:true,desc:'Goku pintado a mano con pintura textil profesional.'},
-    {id:'p5',name:'Skull Bleach',type:'Bleach Art',price:125000,priceEUR:29.90,image:'💀',category:'bleach',desc:'Calavera en bleach art. Estilo rockero y agresivo.'},
-    {id:'p6',name:'Floral Tie Dye',type:'Tie Dye',price:146000,priceEUR:34.90,image:'🌸',category:'tiedye',desc:'Patrón floral en tie dye. Colores vibrantes.'},
-    {id:'p7',name:'Anime Custom',type:'Pintura Textil',price:188000,priceEUR:44.90,image:'🎭',category:'pintura',desc:'Tu personaje anime favorito pintado a mano.'},
-    {id:'p8',name:'Logo Personalizado',type:'Personalizado',price:104000,priceEUR:24.90,image:'✨',category:'personalizado',desc:'Tu logo o marca personalizada sobre camiseta.'},
-    {id:'p9',name:'Zelda Bleach',type:'Bleach Art',price:138000,priceEUR:32.90,image:'⚔️',category:'bleach',desc:'Legend of Zelda en bleach art. Trifuerza incluida.'},
-    {id:'p10',name:'Retrowave Tie Dye',type:'Tie Dye',price:155000,priceEUR:36.90,image:'🌴',category:'tiedye',desc:'Estilo retrowave ochentero en tie dye.'},
-    {id:'p11',name:'One Piece Pintado',type:'Pintura Textil',price:188000,priceEUR:44.90,image:'☠️',category:'pintura',popular:true,desc:'One Piece pintado a mano. Straw Hat crew.'},
-    {id:'p12',name:'Tu Diseño',type:'Personalizado',price:104000,priceEUR:24.90,image:'✨',category:'personalizado',desc:'Cualquier idea que tengas. La hacemos realidad.'}
+    {id:'p1',name:'Yoshi Bleach',type:'Bleach Art',price:125000,priceEUR:29.90,image:'https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=400&h=400&fit=crop',category:'bleach',popular:true,desc:'Camiseta decolorada con cloro. Diseño de Yoshi. Efecto único.'},
+    {id:'p2',name:'Super Mario Bleach',type:'Bleach Art',price:125000,priceEUR:29.90,image:'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=400&fit=crop',category:'bleach',popular:true,desc:'Mario Bros en bleach art. Diseño artesanal sobre tela negra.'},
+    {id:'p3',name:'Tie Dye Psicodélico',type:'Tie Dye',price:146000,priceEUR:34.90,image:'https://images.unsplash.com/photo-1564859228273-274232fdb516?w=400&h=400&fit=crop',category:'tiedye',desc:'Patrón psicodélico teñido a mano. Cada pieza es única.'},
+    {id:'p4',name:'Dragon Ball Pintado',type:'Pintura Textil',price:167000,priceEUR:39.90,image:'https://images.unsplash.com/photo-1596728325488-58c87691e9af?w=400&h=400&fit=crop',category:'pintura',popular:true,desc:'Goku pintado a mano con pintura textil profesional.'},
+    {id:'p5',name:'Skull Bleach',type:'Bleach Art',price:125000,priceEUR:29.90,image:'https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=400&h=400&fit=crop',category:'bleach',desc:'Calavera en bleach art. Estilo rockero y agresivo.'},
+    {id:'p6',name:'Floral Tie Dye',type:'Tie Dye',price:146000,priceEUR:34.90,image:'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=400&h=400&fit=crop',category:'tiedye',desc:'Patrón floral en tie dye. Colores vibrantes.'},
+    {id:'p7',name:'Anime Custom',type:'Pintura Textil',price:188000,priceEUR:44.90,image:'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=400&h=400&fit=crop',category:'pintura',desc:'Tu personaje anime favorito pintado a mano.'},
+    {id:'p8',name:'Logo Personalizado',type:'Personalizado',price:104000,priceEUR:24.90,image:'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=400&h=400&fit=crop',category:'personalizado',desc:'Tu logo o marca personalizada sobre camiseta.'},
+    {id:'p9',name:'Zelda Bleach',type:'Bleach Art',price:138000,priceEUR:32.90,image:'https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=400&h=400&fit=crop',category:'bleach',desc:'Legend of Zelda en bleach art. Trifuerza incluida.'},
+    {id:'p10',name:'Retrowave Tie Dye',type:'Tie Dye',price:155000,priceEUR:36.90,image:'https://images.unsplash.com/photo-1564584217132-2271feaeb3c5?w=400&h=400&fit=crop',category:'tiedye',desc:'Estilo retrowave ochentero en tie dye.'},
+    {id:'p11',name:'One Piece Pintado',type:'Pintura Textil',price:188000,priceEUR:44.90,image:'https://images.unsplash.com/photo-1596728325488-58c87691e9af?w=400&h=400&fit=crop',category:'pintura',popular:true,desc:'One Piece pintado a mano. Straw Hat crew.'},
+    {id:'p12',name:'Tu Diseño',type:'Personalizado',price:104000,priceEUR:24.90,image:'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop',category:'personalizado',desc:'Cualquier idea que tengas. La hacemos realidad.'}
   ]
 }
 
@@ -221,7 +221,7 @@ function initShop(){
     const all=getProducts()
     const f=cat==='all'?all:all.filter(p=>p.category===cat)
     grid.innerHTML=f.map(p=>`<div class="product-card">
-      <div class="product-image">${p.popular?'<span class="share-badge" style="position:absolute;top:1rem;right:1rem;background:color-mix(in srgb,var(--gold) 10%,transparent);border:1px solid color-mix(in srgb,var(--gold) 20%,transparent);padding:.2rem .8rem;border-radius:50px;font-size:.75rem;color:var(--gold);font-weight:600">🔥 Popular</span>':''}<span style="font-size:4rem;opacity:.8">${p.image}</span></div>
+      <div class="product-image">${p.popular?'<span class="share-badge" style="position:absolute;top:1rem;right:1rem;background:color-mix(in srgb,var(--gold) 10%,transparent);border:1px solid color-mix(in srgb,var(--gold) 20%,transparent);padding:.2rem .8rem;border-radius:50px;font-size:.75rem;color:var(--gold);font-weight:600">🔥 Popular</span>':''}<img src="${p.image}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=font-size:4rem;opacity:.8>👕</span>'"></div>
       <div class="product-info"><span class="product-type">${p.type}</span><h3>${p.name}</h3><div class="product-price">${formatCOP(p.price)}</div>
       <button class="btn btn-primary btn-sm btn-block" onclick="addToCart({id:'${p.id}',name:'${p.name.replace(/'/g,"\\'")}',price:${p.price}})">🛒 Añadir</button>
       <button class="btn btn-ghost btn-sm btn-block mt-1" onclick="quickView('${p.id}')">👁 Vista rápida</button></div></div>`).join('')
@@ -237,7 +237,7 @@ function quickView(id){
   o.innerHTML=`<div class="modal" style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:2.5rem;max-width:480px;width:90%;position:relative">
     <button class="modal-close" onclick="this.closest('.modal-overlay').remove()" style="position:absolute;top:1rem;right:1rem;background:none;border:none;color:var(--text-muted);font-size:1.2rem;cursor:pointer">✕</button>
     <h2 style="font-size:1.5rem;margin-bottom:.5rem">${p.name}</h2>
-    <div style="font-size:5rem;text-align:center;margin:1rem 0;opacity:.8">${p.image}</div>
+    <div style="font-size:5rem;text-align:center;margin:1rem 0;border-radius:12px;overflow:hidden"><img src="${p.image}" alt="${p.name}" style="max-width:100%;max-height:240px;object-fit:cover;border-radius:12px" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=font-size:5rem;opacity:.8>👕</span>'"></div>
     <p><strong>Tipo:</strong> ${p.type}</p>
     <p><strong>Precio:</strong> ${formatCOP(p.price)}</p>
     <p style="color:var(--text-muted);margin-top:.8rem;font-size:.9rem">${p.desc||'Técnica artesanal 100% realizada a mano.'}</p>
@@ -276,7 +276,7 @@ function renderSlider(){
     else if(i===(idx-2+total)%total)pos='far-left'
     else if(i===(idx+2)%total)pos='far-right'
     return `<div class="slider-card ${pos}" onclick="if(${i}===${idx})addToCart({id:'${p.id}',name:'${p.name.replace(/'/g,"\\'")}',price:${p.price}});else{sliderIndex=${i};renderSlider()}">
-      <div class="slider-img">${p.image}</div>
+      <div class="slider-img"><img src="${p.image}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=font-size:5rem;opacity:.8>👕</span>'"></div>
       <div class="slider-body"><span class="slider-type">${p.type}</span><h3>${p.name}</h3><div class="slider-price">${formatCOP(p.price)}</div></div></div>`
   }).join('')
 }
@@ -358,7 +358,7 @@ function initAdmin(){
     if(!list)return
     const prods=getProducts()
     list.innerHTML=prods.map(p=>`<div class="admin-product-item">
-      <div class="admin-p-info"><h4>${p.image} ${p.name}</h4><p>${p.type} · ${formatCOP(p.price)}</p></div>
+      <div class="admin-p-info"><img src="${p.image}" alt="" style="width:32px;height:32px;border-radius:8px;object-fit:cover;vertical-align:middle;margin-right:.5rem" onerror="this.style.display='none'"><h4 style="display:inline">${p.name}</h4><p>${p.type} · ${formatCOP(p.price)}</p></div>
       <div class="admin-p-actions">
         <button class="admin-btn-sm" onclick="editProduct('${p.id}')">✏️</button>
         <button class="admin-btn-sm admin-btn-danger" onclick="deleteProductConfirm('${p.id}')">🗑️</button>
@@ -723,7 +723,79 @@ function updateModeLabel(mode){
 }
 
 // ==============================================
-// 16. INIT
+// 16. MUSIC PLAYER
+// ==============================================
+let _musicAudio=null
+function initMusicPlayer(){
+  // Check if player already exists
+  if(document.querySelector('.music-player'))return
+  
+  const tracks=[
+    {name:'Lo-Fi Beats',url:'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'},
+    {name:'Chill Vibes',url:'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3'},
+    {name:'Night Drive',url:'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3'}
+  ]
+  let currentTrack=0
+  
+  const el=document.createElement('div')
+  el.className='music-player'
+  el.innerHTML=`
+    <span class="music-label" id="musicLabel">🎵 ${tracks[0].name}</span>
+    <button class="music-btn" id="musicPlayBtn">▶</button>
+    <button class="music-btn" id="musicNextBtn" style="width:28px;height:28px;font-size:.7rem;background:var(--bg-elevated);color:var(--text-muted)">↻</button>`
+  document.body.appendChild(el)
+  
+  const label=document.getElementById('musicLabel')
+  const playBtn=document.getElementById('musicPlayBtn')
+  const nextBtn=document.getElementById('musicNextBtn')
+  
+  // Load saved state
+  const saved=JSON.parse(localStorage.getItem('horus_music_state')||'{}')
+  if(saved.trackIndex!==undefined)currentTrack=saved.trackIndex
+  
+  function loadTrack(idx){
+    currentTrack=((idx%tracks.length)+tracks.length)%tracks.length
+    if(_musicAudio){_musicAudio.pause();_musicAudio=null}
+    _musicAudio=new Audio(tracks[currentTrack].url)
+    _musicAudio.loop=false
+    _musicAudio.volume=.15
+    label.textContent='🎵 '+tracks[currentTrack].name
+    localStorage.setItem('horus_music_state',JSON.stringify({trackIndex:currentTrack,playing:false}))
+    playBtn.textContent='▶'
+    label.classList.remove('playing')
+    _musicAudio.addEventListener('ended',()=>{loadTrack(currentTrack+1);play()})
+    if(saved.playing&&saved.trackIndex===currentTrack)play()
+  }
+  
+  function play(){
+    if(!_musicAudio)return
+    _musicAudio.play().then(()=>{
+      playBtn.textContent='⏸'
+      label.classList.add('playing')
+      const s=JSON.parse(localStorage.getItem('horus_music_state')||'{}')
+      s.playing=true;localStorage.setItem('horus_music_state',JSON.stringify(s))
+    }).catch(()=>{})
+  }
+  function pause(){
+    if(!_musicAudio)return
+    _musicAudio.pause()
+    playBtn.textContent='▶'
+    label.classList.remove('playing')
+    const s=JSON.parse(localStorage.getItem('horus_music_state')||'{}')
+    s.playing=false;localStorage.setItem('horus_music_state',JSON.stringify(s))
+  }
+  
+  loadTrack(currentTrack)
+  
+  playBtn.addEventListener('click',()=>{
+    if(_musicAudio&&!_musicAudio.paused){pause()}
+    else{play()}
+  })
+  nextBtn.addEventListener('click',()=>{loadTrack(currentTrack+1)})
+}
+
+// ==============================================
+// 17. INIT
 // ==============================================
 document.addEventListener('DOMContentLoaded',()=>{
   // Apply saved custom theme early so trigger renders with correct color
@@ -732,7 +804,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   initNavbar();initScrollNav();initReveal();initCounters()
   updateBadge();renderCart();renderCheckout();renderOrders()
   initShop();initSlider();initParticles();initAdmin();initCustomize()
-  initThemeCustomizer()
+  initThemeCustomizer();initMusicPlayer()
   const ti=document.getElementById('timeIndicator')
   if(ti)ti.textContent=getTimeModeLabel().icon+' '+getTimeModeLabel().text
 })
