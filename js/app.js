@@ -24,18 +24,17 @@ function applyCustomTheme(gold,bg,mode){
     document.head.appendChild(s)
   }
   // Generate theme for each time mode, adapting the accent accordingly
-  const modes=mode==='manual'?{current:mode}:[mode]
   const m=mode
-  let css=`:root{--gold:${gold};--gold-light:${adjustColor(gold,30)};--gold-glow:${hexToRgba(gold,.25)};--bg:${bg};--bg-card:${adjustColor(bg,8)};--bg-elevated:${adjustColor(bg,15)};--border:${hexToRgba(gold,.12)};--text:${getContrastColor(bg)};--text-muted:${getMutedColor(bg)};--hero-start:${bg};--hero-mid:${adjustColor(bg,20)};--hero-end:${adjustColor(bg,40)}}\n`
-  // Generate morning/afternoon variants if cycling modes
+  // Use body tag for higher specificity than style.css :root/mode selectors
   const variants={
     morning:{gold:adjustColor(gold,30),bg:adjustColor(bg,80)},
     afternoon:{gold:adjustColor(gold,-20),bg:adjustColor(bg,20)},
     night:{gold,bg}
   }
+  let css=''
   Object.entries(variants).forEach(([vm,v])=>{
-    if(vm===m)return // already set as :root
-    css+=`body.mode-${vm}{--gold:${v.gold};--gold-light:${adjustColor(v.gold,30)};--gold-glow:${hexToRgba(v.gold,.25)};--bg:${v.bg};--bg-card:${adjustColor(v.bg,8)};--bg-elevated:${adjustColor(v.bg,15)};--border:${hexToRgba(v.gold,.12)};--text:${getContrastColor(v.bg)};--text-muted:${getMutedColor(v.bg)};--hero-start:${v.bg};--hero-mid:${adjustColor(v.bg,20)};--hero-end:${adjustColor(v.bg,40)}}\n`
+    const sel=vm===m?'body':`body.mode-${vm}`
+    css+=`${sel}{--gold:${v.gold};--gold-light:${adjustColor(v.gold,30)};--gold-glow:${hexToRgba(v.gold,.25)};--bg:${v.bg};--bg-card:${adjustColor(v.bg,8)};--bg-elevated:${adjustColor(v.bg,15)};--border:${hexToRgba(v.gold,.12)};--text:${getContrastColor(v.bg)};--text-muted:${getMutedColor(v.bg)};--hero-start:${v.bg};--hero-mid:${adjustColor(v.bg,20)};--hero-end:${adjustColor(v.bg,40)}}\n`
   })
   const s=document.getElementById('customThemeStyle')
   s.textContent=css
