@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Pedidos — Admin HORUS</title>
+<link rel="stylesheet" href="/css/style.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+<nav class="navbar"><div class="container nav-inner">
+<a href="/" class="logo">HORUS</a>
+<ul class="nav-links" id="navLinks">
+<li><a href="/">Inicio</a></li>
+<li><a href="/pages/admin.html">⚙️ Admin</a></li>
+<li><a href="/pages/orders.html">📦 Pedidos</a></li>
+<li><a href="/pages/admin/pedidos.html" class="active">📋 Gestión</a></li>
+</ul>
+<div class="nav-actions">
+<a href="/pages/cart.html" class="cart-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></a>
+<button class="hamburger" id="hamburger" aria-label="Menú">☰</button>
+</div></div></nav>
+
+<section class="page-header"><div class="container">
+<span class="section-label">Gestión</span>
+<h1>Gestión de <span class="accent">pedidos</span></h1>
+<p>Administra el estado de los pedidos de tus clientes.</p>
+</div></section>
+
+<section class="section" style="padding-top:0"><div class="container">
+<div id="backendStatus" style="display:none;padding:1rem;border-radius:var(--radius-sm);margin-bottom:1.5rem;background:rgba(255,193,7,.1);border:1px solid rgba(255,193,7,.3);color:#f0c040;font-size:.9rem">⚠️ Backend no conectado. Los pedidos se muestran desde localStorage.</div>
+<div id="ordersAdminContainer"></div>
+</div></section>
+
+<script src="/js/app.js"></script>
+<script>
+function loadOrders(){
+  const container=document.getElementById('ordersAdminContainer')
+  const statusMsg=document.getElementById('backendStatus')
+  
+  fetch('/api/orders.php')
+    .then(r=>r.json())
+    .then(orders=>{
+      statusMsg.style.display='none'
+      renderOrdersAdmin(orders,true)
+    })
+    .catch(()=>{
+      statusMsg.style.display='block'
+      const localOrders=JSON.parse(localStorage.getItem('horus_orders')||'[]')
+      renderOrdersAdmin(localOrders,false)
+    })
+}
+
+function renderOrdersAdmin(orders,isBackend){
+  const container=document.getElementById('ordersAdminContainer')
+  if(!orders.length){
+    container.innerHTML='<div class="cart-empty"><div style="font-size:4rem;margin-bottom:1rem">📦</div><h2>Sin pedidos</h2></div>'
+    return
+  }
+  const sl={pending:'⏳ Pendiente',processing:'⚙️ Procesando',shipped:'📦 Enviado',delivered:'✅ Entregado'}
+  container.innerHTML=`
+    <div style="overflow-x:auto">
+    <table class="orders-table">
+      <thead><tr><th>Pedido</th><th>Cliente</th><th>Total</th><th>Estado</th><th>Acción</th></tr></thead>
+      <tbody>
+      ${orders.map(o=>`<tr>
+        <td><strong>#${o.id||o.id_pedido}</strong><br><small style="color:var(--text-muted)">${new Date(o.date||o.created_at).toLocaleDateString('es')}</small></td>
+        <td>${o.customer?.name||o.customer_name||'—'}<br><small style="color:var(--text-muted)">${o.customer?.whatsapp||o.customer_whatsapp||''}</small></td>
+        <td><strong>${formatCOP(o.total)}</strong></td>
+        <td><span class="order-status ${o.status}" id="status-${o.id}">${sl[o.status]||o.status}</span></td>
+        <td>
+          <select class="status-select" data-order-id="${o.id}" style="padding:.3rem .6rem;border-radius:50px;border:1px solid var(--border);background:var(--bg-card);color:var(--text);font-family:inherit;font-size:.8rem"
+            onchange="updateStatus('${o.id}',this.value,${isBackend})">
+            <option value="pending" ${o.status==='pending'?'selected':''}>⏳ Pendiente</option>
+            <option value="processing" ${o.status==='processing'?'selected':''}>⚙️ Procesando</option>
+            <option value="shipped" ${o.status==='shipped'?'selected':''}>📦 Enviado</option>
+            <option value="delivered" ${o.status==='delivered'?'selected':''}>✅ Entregado</option>
+          </select>
+        </td>
+      </tr>`).join('')}
+      </tbody>
+    </table></div>`
+}
+
+function updateStatus(id,status,isBackend){
+  if(isBackend){
+    fetch('/api/orders.php?id='+id,{
+      method:'PUT',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({status})
+    }).then(r=>r.json()).then(()=>{
+      document.getElementById('status-'+id).textContent={pending:'⏳ Pendiente',processing:'⚙️ Procesando',shipped:'📦 Enviado',delivered:'✅ Entregado'}[status]
+      document.getElementById('status-'+id).className='order-status '+status
+      showToast('✅ Estado actualizado')
+    })
+  } else {
+    // localStorage mode — update locally
+    const orders=JSON.parse(localStorage.getItem('horus_orders')||'[]')
+    const o=orders.find(x=>x.id===id)
+    if(o){o.status=status;localStorage.setItem('horus_orders',JSON.stringify(orders))}
+    document.getElementById('status-'+id).textContent={pending:'⏳ Pendiente',processing:'⚙️ Procesando',shipped:'📦 Enviado',delivered:'✅ Entregado'}[status]
+    document.getElementById('status-'+id).className='order-status '+status
+    showToast('✅ Estado actualizado (local)')
+  }
+}
+
+document.addEventListener('DOMContentLoaded',loadOrders)
+</script>
+</body></html>

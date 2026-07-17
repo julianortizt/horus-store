@@ -81,15 +81,51 @@ function formatCOP(amount){
 const EXCHANGE_RATE = 4200 // 1 EUR ≈ 4200 COP (reference)
 
 // ==============================================
-// 3. ADMIN PRODUCTS CRUD (localStorage)
+// 3. ADMIN PRODUCTS CRUD (localStorage + API)
 // ==============================================
+const API_BASE = '/api'
+let USE_BACKEND = false
+
+// Auto-detect if PHP backend exists
+fetch(API_BASE + '/products.php')
+  .then(r => { if(r.ok) {
+    USE_BACKEND = true
+    return r.json()
+  }})
+  .then(products => {
+    if(products && products.length) {
+      localStorage.setItem('horus_products_api_cache', JSON.stringify(products))
+      // Re-render if slider or shop is visible
+      renderSlider()
+      initShop()
+    }
+  })
+  .catch(() => { USE_BACKEND = false })
+
+function apiRequest(endpoint, method, data) {
+  return fetch(API_BASE + '/' + endpoint, {
+    method,
+    headers: { 'Content-Type': 'application/json' },
+    body: data ? JSON.stringify(data) : undefined
+  }).then(r => r.json())
+}
+
 function getProducts(){
+  if(USE_BACKEND) {
+    // Will be filled async — for sync calls, return local cache
+    const cached = localStorage.getItem('horus_products_api_cache')
+    if(cached) return JSON.parse(cached)
+    return defaultProducts()
+  }
   const stored = localStorage.getItem('horus_products')
   if(stored) return JSON.parse(stored)
   return defaultProducts()
 }
 function saveProducts(prods){
   localStorage.setItem('horus_products',JSON.stringify(prods))
+  if(USE_BACKEND) {
+    prods.forEach(p => apiRequest('products.php?id=' + p.id, 'POST', p))
+  }
 }
 
 function defaultProducts(){

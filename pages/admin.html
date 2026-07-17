@@ -68,7 +68,14 @@
 <div class="form-group"><label>Categoría</label><select name="category" id="adminCategory" required><option value="">Seleccionar</option><option value="bleach">Bleach</option><option value="tiedye">Tie Dye</option><option value="pintura">Pintura</option><option value="personalizado">Personalizado</option></select></div></div>
 <div class="form-row">
 <div class="form-group"><label>Precio (COP)</label><input type="number" name="price" id="adminPrice" placeholder="Ej: 125000" required></div>
-<div class="form-group"><label>Emoji ícono</label><input type="text" name="image" id="adminImage" placeholder="Ej: ☠️ 🍄 🌈" maxlength="2"></div></div>
+<div class="form-group"><label>Emoji / Icono</label><input type="text" name="image" id="adminImage" placeholder="Ej: ☠️ 🍄 🌈"></div></div>
+<div class="form-group"><label>Imagen del producto</label>
+<div style="display:flex;gap:.5rem;align-items:center">
+<input type="file" id="adminImageUpload" accept="image/*" style="flex:1;padding:.5rem;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-family:inherit">
+<button type="button" class="btn btn-ghost btn-sm" onclick="uploadImage()">📤 Subir</button>
+</div>
+<div id="imagePreview" style="margin-top:.5rem;display:none"><img id="previewImg" style="max-width:120px;border-radius:8px;border:1px solid var(--border)"></div>
+</div>
 <div class="form-group"><label>Descripción</label><textarea name="desc" id="adminDesc" placeholder="Describe el producto..."></textarea></div>
 <div class="form-group"><label><input type="checkbox" name="popular" id="adminPopular" value="1"> Marcar como popular</label></div>
 <button type="submit" class="btn btn-primary btn-block" id="adminSubmitBtn">💾 Guardar producto</button>
@@ -78,6 +85,9 @@
 
 <div class="admin-products">
 <h2>📦 Productos <span id="productCount"></span></h2>
+<div style="display:flex;gap:.5rem;margin-bottom:1rem;flex-wrap:wrap">
+<button class="btn btn-ghost btn-sm" onclick="syncToBackend()" id="syncBtn" style="display:none">🔄 Sincronizar con servidor</button>
+</div>
 <div id="adminProductList"></div>
 </div>
 
@@ -91,8 +101,48 @@
 </div><div class="footer-bottom"><p>&copy; 2026 HORUS</p></div></footer>
 <script src="/js/app.js"></script>
 <script>
+// Upload image to server
+function uploadImage(){
+  const input=document.getElementById('adminImageUpload')
+  const preview=document.getElementById('imagePreview')
+  const previewImg=document.getElementById('previewImg')
+  if(!input.files||!input.files[0])return alert('Selecciona una imagen primero')
+  const formData=new FormData()
+  formData.append('file',input.files[0])
+  fetch('/api/upload.php',{method:'POST',body:formData})
+    .then(r=>r.json())
+    .then(d=>{
+      if(d.url){
+        document.getElementById('adminImage').value=d.url
+        preview.style.display='block'
+        previewImg.src=d.url
+        showToast('✅ Imagen subida')
+      }else{alert('Error: '+d.error)}
+    }).catch(()=>{alert('Error al subir. ¿Está conectado el backend?')})
+}
+
+// Sync localStorage products to backend
+function syncToBackend(){
+  const prods=JSON.parse(localStorage.getItem('horus_products')||'[]')
+  if(!prods.length)return showToast('⚠️ No hay productos en localStorage')
+  let done=0
+  prods.forEach(p=>{
+    fetch('/api/products.php',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(p)
+    }).then(r=>r.json()).then(()=>{
+      done++
+      if(done===prods.length)showToast('✅ '+done+' productos sincronizados')
+    })
+  })
+  showToast('🔄 Sincronizando '+prods.length+' productos...')
+}
+
 // Override the admin form title behavior
 document.addEventListener('DOMContentLoaded',function(){
+  // Show sync button if backend detected
+  fetch('/api/products.php').then(r=>{if(r.ok)document.getElementById('syncBtn').style.display='block'}).catch(()=>{})
   const formTitle=document.getElementById('formTitle')
   const editId=document.getElementById('editProductId')
   const submitBtn=document.getElementById('adminSubmitBtn')

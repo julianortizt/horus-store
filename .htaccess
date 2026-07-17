@@ -1,0 +1,23 @@
+RewriteEngine On
+
+# Route API requests
+RewriteRule ^api/products\.php$ api/products.php [L,QSA]
+RewriteRule ^api/orders\.php$ api/orders.php [L,QSA]
+RewriteRule ^api/upload\.php$ api/upload.php [L,QSA]
+RewriteRule ^api/init\.php$ api/init.php [L,QSA]
+
+# CORS
+Header always set Access-Control-Allow-Origin "*"
+Header always set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+Header always set Access-Control-Allow-Headers "Content-Type"
+
+# PHP settings
+php_value upload_max_filesize 32M
+php_value post_max_size 32M
+php_value max_execution_time 120
+
+# Security
+Options -Indexes
+<FilesMatch "\.(sql|md|log)$">
+  Require all denied
+</FilesMatch>
