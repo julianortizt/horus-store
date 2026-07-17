@@ -547,11 +547,18 @@ function initNavbar(){
   nl.querySelectorAll('a').forEach(a=>{const h=a.getAttribute('href');if(p===h||(h!=='/'&&p.startsWith(h)))a.classList.add('active')})
 }
 function initScrollNav(){const n=document.querySelector('.navbar');if(!n)return;window.addEventListener('scroll',()=>n.classList.toggle('scrolled',window.scrollY>50))}
-function initReveal(){new IntersectionObserver((entries)=>{entries.forEach((e,i)=>{if(e.isIntersecting)setTimeout(()=>e.target.classList.add('visible'),i*80)})},{threshold:.1}).forEach(el=>observer.observe(el),document.querySelectorAll('.reveal'))}
-function initCounters(){document.querySelectorAll('.count-up').forEach(el=>{const t=parseInt(el.dataset.target)||parseInt(el.textContent.replace(/[^0-9]/g,''))||0,s=el.textContent.replace(/[0-9]/g,'').trim()
-    new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){let c=0,step=Math.ceil(t/40)
+function initReveal(){
+  const observer=new IntersectionObserver((entries)=>{entries.forEach((e,i)=>{if(e.isIntersecting)setTimeout(()=>e.target.classList.add('visible'),i*80)})},{threshold:.1})
+  document.querySelectorAll('.reveal').forEach(el=>observer.observe(el))
+}
+function initCounters(){
+  document.querySelectorAll('.count-up').forEach(el=>{const t=parseInt(el.dataset.target)||parseInt(el.textContent.replace(/[^0-9]/g,''))||0,s=el.textContent.replace(/[0-9]/g,'').trim()
+    const observer=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){let c=0,step=Math.ceil(t/40)
       const timer=setInterval(()=>{c+=step;if(c>=t){c=t;clearInterval(timer)}el.textContent=c.toLocaleString()+(s?' '+s:'')},30)
-      observer.unobserve(el)}})}).observe(el)})}
+      observer.unobserve(el)}})})
+    observer.observe(el)
+  })
+}
 
 // ==============================================
 // 15. THEME CUSTOMIZER (Color Picker + Toggle)
