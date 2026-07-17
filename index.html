@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>HORUS — Camisetas Personalizadas en Colombia</title>
+<meta name="description" content="Camisetas personalizadas artesanales. Bleach art, tie dye, pintura textil. Envíos a toda Colombia. Síguenos en TikTok @horus_histori."/>
+<link rel="stylesheet" href="/css/style.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+</head>
+<body>
+<nav class="navbar"><div class="container nav-inner">
+<a href="/" class="logo">HORUS</a>
+<ul class="nav-links" id="navLinks">
+<li><a href="/" class="active">Inicio</a></li>
+<li><a href="/pages/shop.html">Tienda</a></li>
+<li><a href="/pages/gallery.html">Galería</a></li>
+<li><a href="/pages/customize.html">Personalizar</a></li>
+<li><a href="/pages/orders.html">Pedidos</a></li>
+<li><a href="/pages/admin.html">⚙️ Admin</a></li>
+<li><a href="/pages/contact.html">Contacto</a></li>
+<li><span class="time-indicator" id="timeIndicator">🌅</span></li>
+</ul>
+<div class="nav-actions">
+<a href="/pages/cart.html" class="cart-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg><span class="cart-badge" id="cartBadge">0</span></a>
+<button class="hamburger" id="hamburger" aria-label="Menú">☰</button>
+</div></div></nav>
+
+<!-- HERO CON PARTÍCULAS -->
+<section class="hero">
+<canvas id="particles-canvas"></canvas>
+<div class="hero-bg"></div><div class="hero-grid-bg"></div>
+<div class="container hero-content">
+<div class="hero-flash">🔥 Más de 250 camisetas vendidas en Colombia</div>
+<h1 class="hero-title">Tu estilo,<br/><span class="gradient-text">tu historia</span></h1>
+<p class="hero-sub">Camisetas personalizadas con técnicas artesanales. Bleach art, tie dye, pintura textil. Hechas a mano para ti. 🇨🇴</p>
+<div class="hero-actions">
+<a href="/pages/shop.html" class="btn btn-primary">🛒 Ver colección</a>
+<a href="/pages/gallery.html" class="btn btn-outline">🎨 Galería</a>
+<a href="https://www.tiktok.com/@horus_histori" target="_blank" class="btn btn-ghost">🎵 TikTok</a>
+</div>
+<div class="hero-stats">
+<div class="hero-stat"><h3><span class="count-up" data-target="8977">0</span></h3><p>Seguidores TikTok</p></div>
+<div class="hero-stat"><h3><span class="count-up" data-target="250">0</span>+</h3><p>Camisetas creadas</p></div>
+<div class="hero-stat"><h3><span class="count-up" data-target="98">0</span>%</h3><p>Clientes felices</p></div>
+</div></div></section>
+
+<!-- SLIDER 3D DE PRODUCTOS -->
+<section class="section slider-section">
+<div class="container">
+<span class="section-label">Destacados</span>
+<h2 class="section-title">Productos <span class="accent">impactantes</span></h2>
+<p class="section-sub">Desliza para ver nuestros trabajos más populares.</p>
+<div class="slider-container"><div class="slider-stage" id="sliderStage"></div></div>
+<div class="slider-controls">
+<button class="slider-btn" onclick="slidePrev()">‹</button>
+<button class="slider-btn" onclick="slideNext()">›</button>
+</div></div></section>
+
+<!-- TÉCNICAS -->
+<section class="section"><div class="container">
+<span class="section-label">Técnicas</span>
+<h2 class="section-title">Artesanía <span class="accent">sobre tela</span></h2>
+<div class="features-grid">
+<div class="feature-card reveal"><span class="feature-icon">☠️</span><h3>Bleach Art</h3><p>Decolorado con cloro sobre tela negra. Efecto degradado único e irrepetible.</p></div>
+<div class="feature-card reveal reveal-delay-1"><span class="feature-icon">🎨</span><h3>Pintura Textil</h3><p>Ilustraciones pintadas a mano. Desde personajes anime hasta logos corporativos.</p></div>
+<div class="feature-card reveal reveal-delay-2"><span class="feature-icon">🌈</span><h3>Tie Dye</h3><p>Teñido artesanal con patrones psicodélicos. Cada pieza es única en el mundo.</p></div>
+<div class="feature-card reveal reveal-delay-3"><span class="feature-icon">✨</span><h3>Personalizado</h3><p>Tu idea, tu personaje, tu logo. Cuéntanos qué quieres y lo creamos para ti.</p></div>
+</div></div></section>
+
+<!-- TIKTOK -->
+<section class="section tiktok-gallery" style="background:var(--bg-card)"><div class="container">
+<span class="section-label">TikTok</span>
+<h2 class="section-title">Mira el <span class="accent">proceso creativo</span></h2>
+<div class="tiktok-grid">
+<div class="tiktok-card" onclick="window.open('https://www.tiktok.com/@horus_histori','_blank')"><div class="tiktok-card-inner" style="background:linear-gradient(135deg,#1a1a2e,#16213e)"><div class="tiktok-card-play">▶</div><div class="tiktok-card-label">Bleach Art Yoshi</div><div class="tiktok-card-sub">Ver en TikTok →</div></div></div>
+<div class="tiktok-card" onclick="window.open('https://www.tiktok.com/@horus_histori','_blank')"><div class="tiktok-card-inner" style="background:linear-gradient(135deg,#2e1a1a,#3e1616)"><div class="tiktok-card-play">▶</div><div class="tiktok-card-label">Proceso Tie Dye</div><div class="tiktok-card-sub">Ver en TikTok →</div></div></div>
+<div class="tiktok-card" onclick="window.open('https://www.tiktok.com/@horus_histori','_blank')"><div class="tiktok-card-inner" style="background:linear-gradient(135deg,#1a2e1a,#163e16)"><div class="tiktok-card-play">▶</div><div class="tiktok-card-label">Pintura a mano</div><div class="tiktok-card-sub">Ver en TikTok →</div></div></div>
+</div></div></section>
+
+<!-- CTA -->
+<section class="section" style="text-align:center;padding:5rem 0"><div class="container">
+<h2 class="section-title" style="text-align:center">¿Listo para tu <span class="accent">próxima camiseta</span>?</h2>
+<p style="color:var(--text-muted);margin:1rem 0 2rem">Envíos a toda Colombia. Escríbenos por WhatsApp.</p>
+<a href="https://wa.me/573217430543" target="_blank" class="btn btn-primary">💬 WhatsApp ahora</a>
+<a href="/pages/shop.html" class="btn btn-outline">🛒 Ir a la tienda</a>
+<a href="/pages/admin.html" class="btn btn-ghost">⚙️ Admin</a>
+</div></section>
+
+<footer class="footer"><div class="container footer-inner">
+<div class="footer-brand"><span class="logo">HORUS</span><p>Arte y creatividad sobre tela. Camisetas personalizadas hechas a mano. 🇨🇴 Colombia.</p>
+<div class="footer-social-row"><a href="https://www.tiktok.com/@horus_histori" target="_blank" class="btn-icon">🎵</a><a href="https://www.instagram.com/horus_histori/" target="_blank" class="btn-icon">📸</a><a href="https://wa.me/573217430543" target="_blank" class="btn-icon">💬</a></div></div>
+<div class="footer-column"><h4>Tienda</h4><a href="/pages/shop.html">Productos</a><a href="/pages/customize.html">Personalizado</a><a href="/pages/admin.html">⚙️ Admin</a></div>
+<div class="footer-column"><h4>HORUS</h4><a href="/pages/gallery.html">Galería</a><a href="/pages/orders.html">Pedidos</a><a href="/pages/contact.html">Contacto</a></div>
+<div class="footer-column"><h4>Ayuda</h4><a href="https://wa.me/573217430543" target="_blank">WhatsApp</a><a href="/pages/contact.html">Envíos</a></div>
+</div><div class="footer-bottom"><p>&copy; 2026 HORUS. Hecho con ❤️ desde Colombia.</p></div></footer>
+<script src="/js/app.js"></script>
+<script>const ti=document.getElementById('timeIndicator');if(ti)ti.textContent=getTimeModeLabel().icon+' '+getTimeModeLabel().text</script>
+</body></html>

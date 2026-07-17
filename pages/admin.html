@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Admin — HORUS</title>
+<link rel="stylesheet" href="/css/style.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);z-index:2000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .4s}
+.modal-overlay.open{opacity:1;pointer-events:all}
+</style>
+</head>
+<body>
+<nav class="navbar"><div class="container nav-inner">
+<a href="/" class="logo">HORUS</a>
+<ul class="nav-links" id="navLinks">
+<li><a href="/">Inicio</a></li>
+<li><a href="/pages/shop.html">Tienda</a></li>
+<li><a href="/pages/gallery.html">Galería</a></li>
+<li><a href="/pages/customize.html">Personalizar</a></li>
+<li><a href="/pages/orders.html">Pedidos</a></li>
+<li><a href="/pages/admin.html" class="active">⚙️ Admin</a></li>
+<li><a href="/pages/contact.html">Contacto</a></li>
+<li><span class="time-indicator" id="timeIndicator">🌅</span></li>
+</ul>
+<div class="nav-actions">
+<a href="/pages/cart.html" class="cart-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg><span class="cart-badge" id="cartBadge">0</span></a>
+<button class="hamburger" id="hamburger" aria-label="Menú">☰</button>
+</div></div></nav>
+
+<section class="page-header"><div class="container">
+<span class="section-label">Administración</span>
+<h1>Panel de <span class="accent">control</span></h1>
+<p>Gestiona los productos de tu tienda HORUS. Precios en COP.</p>
+</div></section>
+
+<section class="section" style="padding-top:0"><div class="container admin-layout">
+
+<div class="admin-form">
+<h2>✏️ <span id="formTitle">Nuevo producto</span></h2>
+<input type="hidden" id="editProductId" value="">
+<form id="adminProductForm">
+<div class="form-group"><label>Nombre del producto</label><input type="text" name="name" id="adminName" placeholder="Ej: Yoshi Bleach Art" required></div>
+<div class="form-row">
+<div class="form-group"><label>Tipo</label><select name="type" id="adminType" required><option value="">Seleccionar</option><option value="Bleach Art">Bleach Art</option><option value="Tie Dye">Tie Dye</option><option value="Pintura Textil">Pintura Textil</option><option value="Personalizado">Personalizado</option></select></div>
+<div class="form-group"><label>Categoría</label><select name="category" id="adminCategory" required><option value="">Seleccionar</option><option value="bleach">Bleach</option><option value="tiedye">Tie Dye</option><option value="pintura">Pintura</option><option value="personalizado">Personalizado</option></select></div></div>
+<div class="form-row">
+<div class="form-group"><label>Precio (COP)</label><input type="number" name="price" id="adminPrice" placeholder="Ej: 125000" required></div>
+<div class="form-group"><label>Emoji ícono</label><input type="text" name="image" id="adminImage" placeholder="Ej: ☠️ 🍄 🌈" maxlength="2"></div></div>
+<div class="form-group"><label>Descripción</label><textarea name="desc" id="adminDesc" placeholder="Describe el producto..."></textarea></div>
+<div class="form-group"><label><input type="checkbox" name="popular" id="adminPopular" value="1"> Marcar como popular</label></div>
+<button type="submit" class="btn btn-primary btn-block" id="adminSubmitBtn">💾 Guardar producto</button>
+<button type="button" class="btn btn-ghost btn-block mt-2" onclick="cancelEdit()" id="cancelEditBtn" style="display:none">Cancelar edición</button>
+</form>
+</div>
+
+<div class="admin-products">
+<h2>📦 Productos <span id="productCount"></span></h2>
+<div id="adminProductList"></div>
+</div>
+
+</div></section>
+
+<footer class="footer"><div class="container footer-inner">
+<div class="footer-brand"><span class="logo">HORUS</span><p>Panel de administración.</p></div>
+<div class="footer-column"><h4>Tienda</h4><a href="/pages/shop.html">Productos</a></div>
+<div class="footer-column"><h4>HORUS</h4><a href="/pages/orders.html">Pedidos</a></div>
+<div class="footer-column"><h4>Ayuda</h4><a href="https://wa.me/573217430543" target="_blank">WhatsApp</a></div>
+</div><div class="footer-bottom"><p>&copy; 2026 HORUS</p></div></footer>
+<script src="/js/app.js"></script>
+<script>
+// Override the admin form title behavior
+document.addEventListener('DOMContentLoaded',function(){
+  const formTitle=document.getElementById('formTitle')
+  const editId=document.getElementById('editProductId')
+  const submitBtn=document.getElementById('adminSubmitBtn')
+  const cancelBtn=document.getElementById('cancelEditBtn')
+  const origFormTitle=formTitle.textContent
+
+  // Watch for editProductId changes
+  const observer=new MutationObserver(function(){
+    if(editId.value){
+      formTitle.textContent='Editar producto'
+      submitBtn.innerHTML='✏️ Actualizar producto'
+      cancelBtn.style.display='block'
+    }else{
+      formTitle.textContent=origFormTitle
+      submitBtn.innerHTML='💾 Guardar producto'
+      cancelBtn.style.display='none'
+    }
+  })
+  observer.observe(editId,{attributes:true,attributeFilter:['value']})
+})
+
+function cancelEdit(){
+  document.getElementById('editProductId').value=''
+  document.getElementById('adminProductForm').reset()
+  const cbtn=document.getElementById('cancelEditBtn')
+  if(cbtn)cbtn.style.display='none'
+  document.getElementById('formTitle').textContent='Nuevo producto'
+  document.getElementById('adminSubmitBtn').innerHTML='💾 Guardar producto'
+}
+</script>
+</body></html>

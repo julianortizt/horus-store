@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es"><head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Mis Pedidos — HORUS</title>
+<link rel="stylesheet" href="/css/style.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+</head><body>
+<nav class="navbar"><div class="container nav-inner">
+<a href="/" class="logo">HORUS</a>
+<ul class="nav-links" id="navLinks">
+<li><a href="/">Inicio</a></li><li><a href="/pages/shop.html">Tienda</a></li><li><a href="/pages/gallery.html">Galería</a></li><li><a href="/pages/customize.html">Personalizar</a></li><li><a href="/pages/orders.html" class="active">Pedidos</a></li><li><a href="/pages/admin.html">⚙️ Admin</a></li><li><a href="/pages/contact.html">Contacto</a></li>
+<li><span class="time-indicator" id="timeIndicator">🌅</span></li></ul>
+<div class="nav-actions"><a href="/pages/cart.html" class="cart-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg><span class="cart-badge" id="cartBadge">0</span></a><button class="hamburger" id="hamburger" aria-label="Menú">☰</button></div></div></nav>
+<section class="page-header"><div class="container"><span class="section-label">Seguimiento</span><h1>Mis <span class="accent">pedidos</span></h1><p>Consulta el estado de tus pedidos con seguimiento en tiempo real.</p></div></section>
+<section class="section" style="padding-top:0"><div class="container" id="ordersContainer">
+<div class="cart-empty"><div style="font-size:4rem;margin-bottom:1rem">📦</div><h2>Sin pedidos aún</h2><p style="margin-bottom:2rem">Todos tus pedidos aparecerán aquí.</p><a href="/pages/shop.html" class="btn btn-primary">Ir a la tienda</a></div></div></section>
+<footer class="footer"><div class="container footer-inner">
+<div class="footer-brand"><span class="logo">HORUS</span><p>Camisetas personalizadas. 🇨🇴</p><div class="footer-social-row"><a href="https://www.tiktok.com/@horus_histori" target="_blank" class="btn-icon">🎵</a><a href="https://www.instagram.com/horus_histori/" target="_blank" class="btn-icon">📸</a><a href="https://wa.me/573217430543" target="_blank" class="btn-icon">💬</a></div></div>
+<div class="footer-column"><h4>Tienda</h4><a href="/pages/shop.html">Productos</a></div>
+<div class="footer-column"><h4>HORUS</h4><a href="/pages/admin.html">Admin</a></div>
+<div class="footer-column"><h4>Ayuda</h4><a href="https://wa.me/573217430543" target="_blank">WhatsApp</a></div>
+</div><div class="footer-bottom"><p>&copy; 2026 HORUS</p></div></footer>
+<script src="/js/app.js"></script><script>const ti=document.getElementById('timeIndicator');if(ti)ti.textContent=getTimeModeLabel().icon+' '+getTimeModeLabel().text</script>
+</body></html>
